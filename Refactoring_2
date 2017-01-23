@@ -1,0 +1,39 @@
+
+
+function drawRating(vote) {
+    if (vote >= 0 && vote <= 20) {
+        return '★☆☆☆☆';
+    }
+    else if (vote > 20 && vote <= 40) { 
+        return '★★☆☆☆';
+    }
+    else if (vote > 40 && vote <= 60) {
+        return '★★★☆☆';
+    }
+    else if (vote > 60 && vote <= 80) {
+        return '★★★★☆';
+    }
+    else if (vote > 80 && vote <= 100) {
+        return '★★★★★';
+    }
+}
+// по 2 раза выполняются проверки удалить лишние
+// если заранее ГАРАНТИРОВАН диапазон можно убрать ещё часть проверок (но лучше не надо)
+
+function drawRating(vote) {
+    if (vote >= 0 && vote <= 20) { // отсюда можно будет убрать vote >= 0
+        return '★☆☆☆☆';
+    }
+    else if (vote <= 40) { 
+        return '★★☆☆☆';
+    }
+    else if (vote <= 60) {
+        return '★★★☆☆';
+    }
+    else if (vote <= 80) {
+        return '★★★★☆';
+    }
+    else if (vote <= 100) { // и отсюда убрать if
+        return '★★★★★';
+    }
+}
