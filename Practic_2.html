@@ -6,6 +6,7 @@
 </head>
 <body>
 
+<div class=table-wrapper>
 <table class="table">
     <thead>
     <tr>
@@ -18,15 +19,14 @@
     </thead>
     <tbody>
         <tr>
-            <td>asd</td>
-            <td>a</td>
-        </tr>
-        <tr>
             <td></td>
-            <td>1</td>
+            <td></td>
+            <td>Loading</td>
         </tr>
     </tbody>
 </table>
+
+</div>
 
 
 
@@ -54,9 +54,11 @@ var sortColumn = function(button){
     if (sorted == "no" || sorted == "down"){
         order = "up"
         button.setAttribute("sorted", "up");
+        button.innerText = "▲"
     }else {
         order = "down" 
         button.setAttribute("sorted", "down");
+        button.innerText = "▼"
     }
     
     //TODO: buttons reset
@@ -71,6 +73,26 @@ var sortColumn = function(button){
     }
 }
 
+function PageButton(table_html, page, active){
+    var button = document.createElement("button");
+    var text = document.createTextNode(page);
+    button.appendChild(text);
+    button.setAttribute("page", page);
+    
+    button.onclick = function () {
+        var dom_table = table.getPage(parseInt(this.getAttribute("page")) - 1)
+    
+        table_html = this.parentNode.getElementsByClassName("table")[0]
+        
+        var bodys = table_html.getElementsByTagName("tbody");
+        for (j = 0; j < bodys.length; ++j){ table_html.removeChild(bodys[j]);}
+        
+        table_html.appendChild(dom_table);
+    }
+    
+    this.html = button;
+}
+
 function TableData(){
     this.array = [];
     this.filteredArray = [];
@@ -81,7 +103,6 @@ function TableData(){
     }
     
     this.sortParam = function (param, paramType, order) {
-        debugger;
         if (order == "up"){
             order = 1;
         }else if (order == "down"){
@@ -112,7 +133,7 @@ function TableData(){
     
     this.getPage = function (num) {
         var html = document.createElement("tbody");
-        for (i = 0 + 50*num; i < 50*num + Math.min(this.filteredArray.length - 50*num, 50); ++i){
+        for (i = 0 + 50*num; i < 50*num + Math.min(this.filteredArray.length - 50*num, 50); ++i){ //TODO: no magik numbers
             var row = document.createElement("tr");
             for (j = 0; j < COLUMNS.length; ++j){
                 var row_c = document.createElement("td");
@@ -134,7 +155,7 @@ function TableData(){
 var table = new TableData();
 var dom_tables = document.getElementsByClassName("table")
 
-getJSON("http://www.filltext.com/?rows=32&id=%7Bnumber%7C1000%7D&firstName=%7BfirstName%7D&lastName=%7BlastName%7D&email=%7Bemail%7D&phone=%7Bphone%7C(xxx)xxx-xx-xx%7D&adress=%7BaddressObject%7D&description=%7Blorem%7C32%7D",
+getJSON("http://www.filltext.com/?rows=1000&id=%7Bnumber%7C1000%7D&firstName=%7BfirstName%7D&delay=3&lastName=%7BlastName%7D&email=%7Bemail%7D&phone=%7Bphone%7C(xxx)xxx-xx-xx%7D&adress=%7BaddressObject%7D&description=%7Blorem%7C32%7D",
         function(err, data) {
             if (err != null) {
                 alert("Something went wrong: " + err);
@@ -144,8 +165,15 @@ getJSON("http://www.filltext.com/?rows=32&id=%7Bnumber%7C1000%7D&firstName=%7Bfi
                 for (i = 0; i < dom_tables.length; ++i){
                     var bodys = dom_tables[i].getElementsByTagName("tbody");
                     for (j = 0; j < bodys.length; ++j){ dom_tables[i].removeChild(bodys[j]);}
+                    
                     dom_tables[i].appendChild(dom_table);
+                    
+                    for (j = 0; j*50 < table.filteredArray.length; ++j){ //через функцию
+                        page_button = new PageButton(dom_tables[i], j+1, false)
+                        dom_tables[i].parentNode.insertBefore(page_button.html, dom_tables[i])
+                    }
                 }
+                
             }
         });
 
