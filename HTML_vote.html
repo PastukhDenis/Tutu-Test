@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+.rating__mark {
+    position:relative;
+    width:13px;
+    height:13px;
+    margin-right:1px;
+    cursor: pointer;
+}
+
+.rating-1>.rating__mark-1 {
+    color: red;
+}
+
+.rating-2>.rating__mark-1, .rating-2>.rating__mark-2 {
+    color: red;
+}
+
+.rating-3>.rating__mark-1, .rating-3>.rating__mark-2, .rating-3>.rating__mark-3 {
+    color: red;
+}
+
+.rating-4>.rating__mark-1, .rating-4>.rating__mark-2, .rating-4>.rating__mark-3, .rating-4>.rating__mark-4 {
+    color: red;
+}
+
+.rating-5>.rating__mark-1, .rating-5>.rating__mark-2, .rating-5>.rating__mark-3, .rating-5>.rating__mark-4, .rating-5>.rating__mark-5 {
+    color: green;
+}
+
+
+</style>
+</head>
+<body>
+
+<div class="rating rating-5">
+    <i class="rating__mark rating__mark-1">1</i>
+    <i class="rating__mark rating__mark-2">2</i>
+    <i class="rating__mark rating__mark-3">3</i>
+    <i class="rating__mark rating__mark-4">4</i>
+    <i class="rating__mark rating__mark-5">5</i>
+</div>
+
+
+</body>
+</html>
